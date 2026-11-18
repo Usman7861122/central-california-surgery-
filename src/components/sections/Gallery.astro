@@ -1,0 +1,31 @@
+---
+import SectionHead from '../ui/SectionHead.astro';
+import Reveal from '../islands/motion/Reveal';
+import CardFanCarousel from '../islands/CardFanCarousel';
+import Button from '../ui/Button.astro';
+
+const p = (n: number) => `/images/photos/ccs-${n}.jpg`;
+// Order matters: the middle card starts in the centre of the fan.
+const cards = [
+  { imgUrl: p(5), title: 'Friendly faces', caption: 'Our front desk team is happy to help.', alt: 'Dr. Huber chatting with front desk staff', pos: '88% 50%' },
+  { imgUrl: p(8), title: 'Careful planning', caption: 'Your care plan is reviewed with you step by step.', alt: 'Dr. Huber reviewing a patient chart on a screen with a team member', pos: '55% 50%' },
+  { imgUrl: p(7), title: 'Teamwork', caption: 'Surgeon and staff work together for every patient.', alt: 'Dr. Huber and a team member talking in the clinic', pos: '45% 50%' },
+  { imgUrl: p(2), title: 'Clear explanations', caption: 'Dr. Huber walks you through each procedure.', alt: 'Dr. Huber pointing to a diagram of a weight loss procedure on the office wall', pos: '30% 50%' },
+  { imgUrl: p(3), title: 'Dr. Andy Huber, MD', caption: 'Board-certified general and bariatric surgeon.', alt: 'Dr. Huber smiling in front of anatomy diagrams', pos: '40% 50%' },
+  { imgUrl: p(9), title: 'A warm welcome', caption: 'A caring team from your very first call.', alt: 'A member of the care team smiling at the front desk', pos: '50% 30%' },
+  { imgUrl: p(6), title: 'Our Modesto office', caption: '1001 Sylvan Avenue, Building A.', alt: 'Dr. Huber standing in the reception area under the practice logo', pos: '12% 50%' },
+  { imgUrl: p(1), title: 'Comfortable visits', caption: 'Private exam rooms where you can ask anything.', alt: 'A patient smiling while sitting in an exam room', pos: '35% 50%' },
+  { imgUrl: p(4), title: 'Central California Surgery', caption: 'In partnership with Oak Valley Hospital District.', alt: 'Reception desk with the Central California Surgery logo on the wall', pos: '40% 50%' },
+];
+---
+<section id="gallery" class="relative overflow-hidden bg-white py-20 md:py-28" aria-labelledby="gallery-title">
+  <div class="mx-auto max-w-7xl px-6">
+    <Reveal client:visible className="flex flex-wrap items-end justify-between gap-6">
+      <SectionHead id="gallery-title" eyebrow="Inside our practice" title="Meet the team and <em>see where you will be cared for</em>" />
+      <Button href="/#contact" variant="outline">Plan your visit</Button>
+    </Reveal>
+  </div>
+  <div class="-mt-2 md:-mt-6">
+    <CardFanCarousel client:visible cards={cards} />
+  </div>
+</section>

@@ -1,0 +1,17 @@
+---
+import Button from '../ui/Button.astro';
+---
+<!-- Fixed-window parallax: the photo stays still while the page scrolls over it.
+     clip-path keeps the fixed image inside this section (works on iOS too). -->
+<section class="relative isolate flex h-[100svh] min-h-[34rem] items-center overflow-hidden text-white [clip-path:inset(0)]" aria-labelledby="band-title">
+  <img src="/images/stock/cycling-couple.jpg" alt="A healthy couple cycling together on a sunny road" loading="lazy" class="fixed inset-0 -z-20 h-full w-full object-cover object-[68%_50%]" />
+  <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(8,26,53,.85),rgba(8,26,53,.45)_45%,rgba(8,26,53,0)_70%)]"></div>
+  <div class="mx-auto w-full max-w-7xl px-6">
+    <p class="eyebrow eyebrow-light">Your next chapter</p>
+    <h2 id="band-title" class="mt-5 max-w-[34rem] text-4xl leading-[1.08] !text-white sm:text-5xl lg:text-[3.6rem]">
+      Get back to the miles <em class="italic">you've been missing.</em>
+    </h2>
+    <p class="mt-7 max-w-md text-lg leading-relaxed text-white/90">Bike rides, long walks, getting down on the floor to play. Surgery is a tool. The life you want is the goal.</p>
+    <div class="mt-10"><Button href="/#contact" variant="appt-light" arrow>Start your journey</Button></div>
+  </div>
+</section>

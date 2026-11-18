@@ -1,0 +1,10 @@
+---
+import Section from '../ui/Section.astro';
+import Heading from '../ui/Heading.astro';
+import FaqAccordion from '../islands/FaqAccordion';
+import { faqs } from '../../data/faqs';
+---
+<Section>
+  <Heading>FAQ</Heading>
+  <FaqAccordion client:visible items={faqs} />
+</Section>

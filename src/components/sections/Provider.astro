@@ -1,0 +1,49 @@
+---
+import SectionHead from '../ui/SectionHead.astro';
+import Button from '../ui/Button.astro';
+import Reveal from '../islands/motion/Reveal';
+
+const facts = [
+  { k: 'Medical school', v: 'University of Nebraska Medical Center' },
+  { k: 'Residency', v: 'General surgery, San Joaquin General Hospital' },
+  { k: 'Fellowship', v: 'Advanced GI & minimally invasive surgery, Carolinas Medical Center' },
+  { k: 'Member of', v: 'SAGES (Society of American Gastrointestinal and Endoscopic Surgeons)' },
+];
+---
+<section id="provider" class="wash-mist relative overflow-hidden py-20 md:py-28" aria-labelledby="provider-title">
+  <div class="rings pointer-events-none absolute inset-0" style="--rx:0%;--ry:100%"></div>
+  <div class="relative mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+    <Reveal client:visible className="order-2 lg:order-1">
+      <SectionHead id="provider-title" eyebrow="Your surgeon" title="Andy Huber, MD" />
+      <p class="mt-3 font-display text-xl italic text-blue">General &amp; Bariatric Surgeon</p>
+      <p class="mt-6 text-lg leading-relaxed">
+        Dr. Huber is a board-certified general surgeon who focuses on bariatric surgery. He performs laparoscopic sleeve gastrectomy and gastric bypass, along with hernia repair, gallbladder removal and minimally invasive bowel surgery.
+      </p>
+      <dl class="mt-9 divide-y divide-line border-y border-line">
+        {facts.map((f) => (
+          <div class="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
+            <dt class="text-xs font-semibold uppercase tracking-[.18em] text-ink">{f.k}</dt>
+            <dd>{f.v}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="mt-9 flex flex-wrap gap-4">
+        <Button href="/#contact" variant="appt" arrow>Book a consultation</Button>
+        <Button href="https://www.centralcaliforniasurgery.com/provider/andy-huber-md" variant="outline" external>Full bio</Button>
+      </div>
+    </Reveal>
+
+    <Reveal client:visible className="order-1 lg:order-2">
+      <div class="relative mx-auto max-w-md lg:max-w-none">
+        <div class="absolute -inset-4 rounded-[22px] border border-blue/25" aria-hidden="true"></div>
+        <div class="img-round img-ring relative aspect-[4/5]">
+          <img src="/images/photos/ccs-3.jpg" alt="Dr. Andy Huber in front of anatomy charts" loading="lazy" class="h-full w-full object-cover object-[48%_20%]" />
+          <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent p-6 pt-24">
+            <p class="font-display text-2xl text-white">Andy Huber, MD</p>
+            <p class="text-sm text-white/80">Central California Surgery &middot; Modesto</p>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  </div>
+</section>

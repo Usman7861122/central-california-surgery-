@@ -1,0 +1,46 @@
+---
+import SectionHead from '../ui/SectionHead.astro';
+import Reveal from '../islands/motion/Reveal';
+import { site } from '../../data/site';
+
+const points = [
+  { title: 'Board-certified surgeons', text: 'Experienced general and bariatric surgeons who treat you as a person, not a procedure.', icon: 'M12 3 4 6v6c0 4.5 3.4 7.8 8 9 4.6-1.2 8-4.5 8-9V6l-8-3Zm-3.5 9 2.5 2.5 4.5-5' },
+  { title: 'Minimally invasive care', text: 'Small incisions, less pain and a faster return to your normal life whenever it is safe.', icon: 'M4 20 20 4M14 4h6v6M4 14v6h6' },
+  { title: 'Support after surgery', text: 'Seminars before, check-ins after. Patients tell us the team always follows up.', icon: 'M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z' },
+  { title: 'Nutrition & financing help', text: 'Diet guides, recipes, a nutrition book and flexible financing options.', icon: 'M5 12c0-4 3-8 7-8 0 4-1 7-4 9m-3-1c3 0 6 2 6 7M20 8c0 5-3 8-8 8' },
+];
+---
+<section id="why" class="wash-light relative overflow-hidden py-20 md:py-28" aria-labelledby="why-title">
+  <div class="rings pointer-events-none absolute inset-0" style="--rx:0%;--ry:0%"></div>
+  <div class="relative mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
+    <Reveal client:visible>
+      <div class="relative">
+        <div class="img-round img-ring aspect-[4/5] sm:aspect-[5/5]">
+          <img src="/images/photos/ccs-2.jpg" alt="Surgeon explaining a bariatric procedure to a patient using an anatomy chart" loading="lazy" class="h-full w-full object-cover object-[30%_30%]" />
+        </div>
+        <div class="img-round absolute -bottom-8 -right-3 hidden w-52 border-[6px] border-white shadow-2xl sm:block lg:-right-10 lg:w-64">
+          <img src="/images/photos/ccs-8.jpg" alt="Surgeon and care team reviewing a patient chart together" loading="lazy" class="aspect-[4/3] w-full object-cover" />
+        </div>
+        <div class="absolute left-4 top-4 rounded-[12px] border border-white/60 bg-white/90 px-4 py-3 shadow-xl backdrop-blur">
+          <p class="font-display text-3xl font-semibold leading-none text-ink">{site.rating.score}<span class="text-base text-slate"> / 5</span></p>
+          <p class="mt-1 text-xs font-medium text-slate">{site.rating.count} patient reviews</p>
+        </div>
+      </div>
+    </Reveal>
+
+    <div>
+      <SectionHead id="why-title" eyebrow="Why choose us" title="A surgical team that stays beside you <em class='italic'>long after</em> the operation." text="Choosing a surgeon is a big decision. Here is what patients across Modesto, Stockton and Fresno count on." />
+      <ul class="mt-12 grid gap-5 sm:grid-cols-2">
+        {points.map((p) => (
+          <li class="card-hover group border border-line bg-white/60 p-6">
+            <span class="grid h-12 w-12 place-items-center rounded-[12px] border border-line bg-white text-blue shadow-sm transition group-hover:border-blue group-hover:shadow-md">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={p.icon} /></svg>
+            </span>
+            <h3 class="mt-4 text-xl text-ink">{p.title}</h3>
+            <p class="mt-2 leading-relaxed">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

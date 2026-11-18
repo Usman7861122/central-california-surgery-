@@ -1,0 +1,11 @@
+---
+import SectionHead from '../ui/SectionHead.astro';
+import BmiCalculator from '../islands/BmiCalculator';
+---
+<section id="bmi" class="wash-navy relative overflow-hidden py-20 md:py-28" aria-labelledby="bmi-title">
+  <div class="rings rings-light pointer-events-none absolute inset-0" style="--rx:0%;--ry:0%"></div>
+  <div class="relative mx-auto max-w-6xl px-6">
+    <SectionHead id="bmi-title" light align="center" eyebrow="BMI calculator" title="Know your starting point." text="Enter your height and weight to see your body mass index in seconds. Nothing is saved or sent." />
+    <div class="mt-14"><BmiCalculator client:visible /></div>
+  </div>
+</section>

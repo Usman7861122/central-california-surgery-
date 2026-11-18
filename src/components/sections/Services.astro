@@ -1,0 +1,62 @@
+---
+import SectionHead from '../ui/SectionHead.astro';
+import Button from '../ui/Button.astro';
+import { services } from '../../data/services';
+---
+<section id="services" class="wash-mist relative overflow-hidden py-20 md:py-28" aria-labelledby="services-title">
+  <div class="rings pointer-events-none absolute inset-0" style="--rx:100%;--ry:100%"></div>
+  <div class="relative mx-auto max-w-7xl px-6">
+    <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+      <SectionHead id="services-title" eyebrow="Our services" title="Surgery for weight loss, <em class='italic'>and for everything else</em> you shouldn't have to put up with." />
+      <Button href="/services" variant="outline" arrow>All services</Button>
+    </div>
+
+    <ul class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" id="service-grid">
+      {services.map((s) => (
+        <li class="flip h-[26rem] sm:h-[28rem]" tabindex="0" aria-label={`${s.title}. Press to read more.`}>
+          <div class="flip__inner">
+            <!-- front: clean photo + title -->
+            <div class="flip__face img-ring">
+              <img src={s.image} alt="" loading="lazy" class="h-full w-full object-cover" style={`object-position:${s.pos}`} />
+              <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent"></div>
+              <div class="absolute inset-x-0 bottom-0 p-7">
+                <p class="text-[11px] font-semibold uppercase tracking-[.22em] text-blue-soft">{s.kicker}</p>
+                <h3 class="mt-2 text-3xl !text-white">{s.title}</h3>
+                <p class="mt-4 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-white/80">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5l2-2v6h-6l2.3-2.3A5 5 0 1 0 17 14"/></svg>
+                  Hover to flip
+                </p>
+              </div>
+            </div>
+            <!-- back: same photo, navy tint, description -->
+            <div class="flip__face flip__back">
+              <img src={s.image} alt="" loading="lazy" class="h-full w-full object-cover" style={`object-position:${s.pos}`} />
+              <div class="absolute inset-0 bg-[linear-gradient(160deg,rgba(12,42,85,.80),rgba(8,26,53,.86))]"></div>
+              <div class="absolute inset-0 flex flex-col justify-center p-8">
+                <h3 class="text-3xl !text-white">{s.title}</h3>
+                <span class="mt-3 block h-px w-12 bg-blue-soft"></span>
+                <p class="mt-5 text-base font-medium leading-relaxed text-white">{s.summary}</p>
+                <p class="mt-3 text-[15px] leading-relaxed text-white/75">{s.body}</p>
+                <a href={`/services/${s.slug}`} class="btn btn-outline-light mt-7 self-start !py-3">Learn more
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  // Touch devices: tap to flip, tap again to flip back (links still work)
+  if (window.matchMedia('(hover: none)').matches) {
+    document.querySelectorAll<HTMLElement>('#service-grid .flip').forEach((card) => {
+      card.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).closest('a')) return;
+        card.classList.toggle('is-flipped');
+      });
+    });
+  }
+</script>

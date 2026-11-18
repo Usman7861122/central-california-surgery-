@@ -1,0 +1,52 @@
+---
+import SectionHead from '../ui/SectionHead.astro';
+import Button from '../ui/Button.astro';
+import { site } from '../../data/site';
+
+const products = [
+  {
+    name: 'Bariatric Advantage',
+    tag: 'Our vitamin store',
+    text: 'Vitamins, minerals and protein made for life after weight loss surgery. Ordered online and shipped to your door.',
+    href: site.links.bariatricAdvantage,
+    cta: 'Shop Bariatric Advantage',
+  },
+  {
+    name: 'Pro Care Vitamins',
+    tag: 'Partner store',
+    text: 'More daily supplements for bariatric patients. Use our patient link so your order supports our practice.',
+    href: site.links.proCare,
+    cta: 'Shop Pro Care Vitamins',
+  },
+];
+---
+<section id="products" class="wash-light relative overflow-hidden py-20 md:py-28" aria-labelledby="products-title">
+  <div class="relative mx-auto grid max-w-7xl items-stretch gap-10 px-6 lg:grid-cols-[1fr_1.1fr]">
+    <div class="card-hover flex flex-wrap items-center justify-between gap-4 border border-line bg-ink px-6 py-5 text-white lg:col-span-2">
+      <p class="font-display text-xl md:text-2xl"><span class="text-blue-soft">Bariatric Advantage</span> vitamins available for purchase online!</p>
+      <Button href={site.links.bariatricAdvantage} variant="white" external arrow>View products</Button>
+    </div>
+    <div class="img-round img-ring relative min-h-[22rem] lg:min-h-full">
+      <img src="/images/photos/ccs-10.jpg" alt="Bariatric vitamins on display in the Central California Surgery office" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-[70%_50%]" />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent"></div>
+      <p class="absolute bottom-6 left-6 right-6 font-display text-2xl italic text-white">Supplements are part of the plan, for life.</p>
+    </div>
+
+    <div class="flex flex-col justify-center">
+      <SectionHead id="products-title" eyebrow="Vitamins & supplements" title="Everything you need for <em class='italic'>life after surgery</em>." text="Your body needs daily support after surgery. These trusted stores are recommended by our team." />
+      <ul class="mt-10 space-y-5">
+        {products.map((p) => (
+          <li class="card-hover group border border-line bg-white p-7">
+            <p class="text-[11px] font-semibold uppercase tracking-[.22em] text-blue">{p.tag}</p>
+            <h3 class="mt-2 text-2xl text-ink">{p.name}</h3>
+            <p class="mt-3 leading-relaxed">{p.text}</p>
+            <div class="mt-6 flex flex-wrap items-center gap-4">
+              <Button href={p.href} variant="outline" external arrow>{p.cta}</Button>
+              <span class="text-xs text-slate">Opens a partner website</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+---
+import SectionHead from '../ui/SectionHead.astro';
+import { insurances, alsoInNetwork } from '../../data/insurances';
+import { site } from '../../data/site';
+const loop = [...insurances, ...insurances];
+---
+<section id="insurance" class="wash-mist relative overflow-hidden py-20 md:py-24" aria-labelledby="insurance-title">
+  <div class="relative mx-auto max-w-7xl px-6">
+    <SectionHead id="insurance-title" align="center" eyebrow="Accepted insurances" title="We work with most major plans." text="Our team checks your benefits before you commit to anything." />
+  </div>
+
+  <div class="relative mt-12 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]" aria-label="Accepted insurance providers">
+    <ul class="marquee gap-5 py-3">
+      {loop.map((i, n) => (
+        <li class="card-hover group mx-2.5 flex h-24 w-56 shrink-0 items-center justify-center overflow-hidden border border-line bg-white px-2" aria-hidden={n >= insurances.length ? 'true' : undefined}>
+          <img
+            src={i.logo}
+            alt={i.name}
+            loading="lazy"
+            class="h-[5.25rem] w-auto max-w-none object-contain mix-blend-multiply opacity-80 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+            onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'font-display text-lg text-ink/70 text-center leading-tight',textContent:this.alt}))"
+          />
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <p class="relative mx-auto mt-8 max-w-3xl px-6 text-center text-sm leading-relaxed">
+    <strong class="text-ink">Also in network:</strong> {alsoInNetwork}
+    Not sure about your plan? <a class="link-u" href={site.phoneHref}>Call {site.phone}</a>.
+  </p>
+</section>

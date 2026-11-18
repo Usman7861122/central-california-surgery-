@@ -1,0 +1,30 @@
+---
+import SectionHead from '../ui/SectionHead.astro';
+import TestimonialSlider from '../islands/TestimonialSlider';
+import { testimonials } from '../../data/testimonials';
+import { site } from '../../data/site';
+---
+<!-- Fixed-window parallax: the reception photo stays still while the reviews scroll over it.
+     clip-path keeps the fixed image inside this section (works on iOS too). -->
+<section id="reviews" class="relative isolate flex items-center overflow-hidden bg-ink py-20 [clip-path:inset(0)] md:min-h-[46rem] md:py-28" aria-labelledby="reviews-title">
+  <img src="/images/photos/ccs-4.jpg" alt="The Central California Surgery logo on the reception wall of the Modesto office" loading="lazy" class="fixed inset-0 -z-20 h-full w-full object-cover object-[40%_45%]" />
+  <div class="absolute inset-0 -z-10" style="background:linear-gradient(180deg,rgba(8,26,53,.80),rgba(8,26,53,.72) 50%,rgba(8,26,53,.86)),radial-gradient(60rem 30rem at 85% 0%,rgba(0,97,253,.22),transparent 60%)"></div>
+  <div class="relative mx-auto grid w-full max-w-7xl items-center gap-14 px-6 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
+    <div>
+      <SectionHead id="reviews-title" light eyebrow="Patient stories" title="In their <em class='italic'>own words</em>." />
+      <div class="mt-9 inline-flex items-center gap-5 rounded-[14px] border border-white/15 bg-white/[.06] px-6 py-5 backdrop-blur">
+        <p class="font-display text-5xl font-semibold text-white">{site.rating.score}</p>
+        <div>
+          <p class="flex gap-0.5 text-blue-soft" aria-label="4.9 out of 5 stars">
+            {[1, 2, 3, 4, 5].map(() => (<svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.8 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.8 6.6 19.7l1-6.1L3.2 9.3l6.1-.9L12 2.8Z"/></svg>))}
+          </p>
+          <p class="mt-1 text-sm text-white/75">Average from {site.rating.count} patient reviews</p>
+        </div>
+      </div>
+      <div class="img-round mt-9 hidden aspect-[16/10] max-w-md lg:block">
+        <img src="/images/photos/ccs-1.jpg" alt="A smiling patient sitting in an exam room at Central California Surgery" loading="lazy" class="h-full w-full object-cover object-[35%_50%]" />
+      </div>
+    </div>
+    <TestimonialSlider client:visible items={testimonials} />
+  </div>
+</section>

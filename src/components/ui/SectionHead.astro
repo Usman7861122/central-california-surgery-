@@ -1,0 +1,9 @@
+---
+interface Props { id?: string; eyebrow: string; title: string; text?: string; light?: boolean; align?: 'left' | 'center'; }
+const { id, eyebrow, title, text, light = false, align = 'left' } = Astro.props;
+---
+<div class={align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl'}>
+  <p class={`eyebrow ${light ? 'eyebrow-light' : ''}`}>{eyebrow}</p>
+  <h2 id={id} class={`mt-4 text-4xl leading-[1.1] md:text-5xl ${light ? '!text-white' : ''}`} set:html={title} />
+  {text && <p class={`mt-5 text-lg leading-relaxed ${light ? 'text-white/75' : ''}`}>{text}</p>}
+</div>

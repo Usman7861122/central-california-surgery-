@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import CopyCode from '../components/islands/CopyCode';
+import { coupon } from '../data/coupon';
+---
+<BaseLayout title={coupon.title} description={coupon.lines}>
+  <section class="wash-light py-24">
+    <div class="mx-auto max-w-2xl px-6 text-center">
+      <p class="eyebrow">Patient offer</p>
+      <h1 class="mt-4 text-5xl">{coupon.title}</h1>
+      <p class="mt-6 text-lg">{coupon.lines}</p>
+      <div class="mx-auto mt-8 max-w-sm"><CopyCode client:load code={coupon.code} /></div>
+      <div class="mt-8"><Button href={coupon.url} variant="appt" external arrow>Shop on {coupon.site}</Button></div>
+    </div>
+  </section>
+</BaseLayout>

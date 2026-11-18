@@ -1,0 +1,46 @@
+---
+import { coupon } from '../../data/coupon';
+import Reveal from '../islands/motion/Reveal';
+import CopyCode from '../islands/CopyCode';
+import Button from '../ui/Button.astro';
+
+const steps = [
+  { t: 'Scan', d: 'Point your phone camera at the QR code on the flyer.' },
+  { t: 'Enter the code', d: 'Type CCS10 at checkout on procarenow.com.' },
+  { t: 'Save 10%', d: 'The discount is applied to your vitamin order.' },
+];
+---
+<section id="coupon" class="wash-light relative overflow-hidden py-20 md:py-28" aria-labelledby="coupon-title">
+  <div class="rings pointer-events-none absolute inset-0" style="--rx:50%;--ry:100%"></div>
+  <div class="relative mx-auto max-w-6xl px-6">
+    <Reveal client:visible className="grid items-end gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+      <div>
+        <p class="eyebrow">Patient offer</p>
+        <h2 id="coupon-title" class="mt-4 text-4xl leading-[1.1] md:text-5xl">Save 10% on <em>bariatric vitamins</em></h2>
+        <p class="mt-5 max-w-xl text-lg leading-relaxed">{coupon.lines}</p>
+      </div>
+      <div class="space-y-4">
+        <CopyCode client:visible code={coupon.code} />
+        <Button href={coupon.url} variant="solid" external arrow class="w-full justify-center">Shop on {coupon.site}</Button>
+      </div>
+    </Reveal>
+
+    <Reveal client:visible className="mt-12">
+      <a href={coupon.url} target="_blank" rel="noopener noreferrer" aria-label="Open the ProCare Health offer in a new tab" class="card-hover group relative block rounded-[18px] bg-white p-2 shadow-[0_40px_80px_-40px_rgba(8,26,53,.5)] ring-1 ring-line md:p-3">
+        <img src={coupon.image} alt={coupon.imageAlt} loading="lazy" width="1576" height="600" class="w-full rounded-[12px]" />
+        <span class="pointer-events-none absolute -left-3 top-1/2 hidden h-6 w-6 -translate-y-1/2 rounded-full bg-[#f4f7fc] ring-1 ring-line md:block" aria-hidden="true"></span>
+        <span class="pointer-events-none absolute -right-3 top-1/2 hidden h-6 w-6 -translate-y-1/2 rounded-full bg-[#f4f7fc] ring-1 ring-line md:block" aria-hidden="true"></span>
+      </a>
+    </Reveal>
+
+    <ol class="mt-8 grid gap-4 sm:grid-cols-3">
+      {steps.map((s, i) => (
+        <li class="card-hover flex items-start gap-4 border border-line bg-white/80 p-5">
+          <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ink font-display text-white" aria-hidden="true">{i + 1}</span>
+          <div><strong class="block text-ink">{s.t}</strong><span class="text-[15px] leading-snug">{s.d}</span></div>
+        </li>
+      ))}
+    </ol>
+    <p class="mt-6 text-xs text-slate">Offer provided by ProCare Health for Central California Surgery patients. Terms are set by ProCare Health.</p>
+  </div>
+</section>

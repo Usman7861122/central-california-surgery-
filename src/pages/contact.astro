@@ -1,0 +1,10 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Container from '../components/ui/Container.astro';
+import ContactForm from '../components/islands/ContactForm';
+---
+<PageLayout title="Contact">
+  <Container>
+    <ContactForm client:idle endpoint={import.meta.env.PUBLIC_FORM_ENDPOINT ?? ''} />
+  </Container>
+</PageLayout>
