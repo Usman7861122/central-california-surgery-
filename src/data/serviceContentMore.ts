@@ -376,4 +376,106 @@ export const more: Record<string, ServiceContent> = {
       startFaq,
     ],
   },
+
+  'glp-1': {
+    title: 'GLP-1 Weight Loss Medication in Modesto, CA',
+    metaTitle: 'GLP-1 Weight Loss Medication (Wegovy, Ozempic, Zepbound) in Modesto, CA',
+    metaDescription: 'Learn about GLP-1 medicines like Wegovy, Ozempic and Zepbound, how they differ, who they may help and how they compare with weight loss surgery. Central California Surgery, Modesto, CA.',
+    eyebrow: 'Weight loss medication',
+    lede: 'GLP-1 medicines such as Wegovy, Ozempic and Zepbound have changed how doctors treat obesity. Our team can explain how they work, how they differ, and whether medicine, surgery or both fit your goals.',
+    areaNote,
+    photos: [
+      { src: '/images/stock/wl-consult.jpg', alt: 'A doctor and a patient talking about weight loss options during a consultation', pos: '50% 40%' },
+      { src: '/images/stock/ds-consultation.jpg', alt: 'A doctor talking with a patient in a clinic about their care plan', pos: '50% 40%' },
+      { src: '/images/stock/wl-active.jpg', alt: 'A smiling woman hiking on a mountain trail', pos: '70% 30%' },
+    ],
+    glance: [
+      { title: 'A weekly habit', text: 'Wegovy, Ozempic and Zepbound are given as a small weekly injection with a pen. Wegovy is also available as a daily pill.' },
+      { title: 'Less hunger', text: 'These medicines copy a natural gut hormone. You feel full sooner and may think about food less.' },
+      { title: 'One tool of several', text: 'Medicine works best with healthy eating and movement. For some patients, surgery is the stronger long-term option.' },
+    ],
+    whatIs: {
+      eyebrow: 'The basics',
+      title: 'What are GLP-1 medicines?',
+      text: [
+        'GLP-1 is a hormone your gut makes after you eat. It tells your brain you are full, slows how fast your stomach empties and helps control blood sugar. GLP-1 medicines copy this hormone, so you feel satisfied with less food.',
+        'You may hear all of these names in the news. They are not the same, so here is a plain-English guide: Wegovy and Ozempic both contain semaglutide. Zepbound contains tirzepatide, which also copies a second hormone called GIP. Mounjaro is another brand of tirzepatide.',
+        'The brand name matters because each medicine is approved for a different use. Doctors choose between them based on your health, your goals, your other medicines and your insurance.',
+      ],
+    },
+    compare: {
+      eyebrow: 'Know the names',
+      title: 'Wegovy, Ozempic and Zepbound: what is the difference?',
+      text: 'All of these are prescription medicines. Here is a quick side-by-side. Your doctor decides which one, if any, fits you.',
+      items: [
+        { name: 'Wegovy', ingredient: 'semaglutide', tag: 'Weight loss', weight: true, rows: [
+          ['Approved for', 'Weight management with obesity, or overweight plus a health problem'],
+          ['Taken', 'Weekly injection, or a daily pill'],
+          ['Good to know', 'Adults and some children 12 and older'],
+        ] },
+        { name: 'Zepbound', ingredient: 'tirzepatide', tag: 'Weight loss', weight: true, rows: [
+          ['Approved for', 'Weight management in adults, and sleep apnea with obesity'],
+          ['Taken', 'Weekly injection'],
+          ['Good to know', 'Also copies a second hormone, GIP'],
+        ] },
+        { name: 'Ozempic', ingredient: 'semaglutide', tag: 'Diabetes', weight: false, rows: [
+          ['Approved for', 'Type 2 diabetes, and heart protection in some adults with diabetes'],
+          ['Taken', 'Weekly injection'],
+          ['Good to know', 'Not approved for weight loss'],
+        ] },
+        { name: 'Mounjaro', ingredient: 'tirzepatide', tag: 'Diabetes', weight: false, rows: [
+          ['Approved for', 'Type 2 diabetes'],
+          ['Taken', 'Weekly injection'],
+          ['Good to know', 'Not approved for weight loss'],
+        ] },
+      ],
+    },
+    local: {
+      ...local('GLP-1 medication'),
+      title: 'GLP-1 weight loss medication in Modesto, CA',
+      text: [
+        'Central California Surgery is at 1001 Sylvan Avenue, Building A, in Modesto. Patients also come from Stockton, Fresno and nearby Central Valley towns to talk about GLP-1 medicines.',
+        'Start with a visit. We will explain your options in plain words, including cash pay, and help you decide whether medicine, surgery or both make sense.',
+      ],
+    },
+    benefits: {
+      title: 'What patients value',
+      text: 'Medicine is a good fit for some people. Here is what it can offer, and what to keep in mind.',
+      items: [
+        { title: 'Meaningful weight loss', text: 'In clinical trials, people lost about 15% of their body weight on Wegovy and about 20% on the highest dose of Zepbound. Individual results vary.' },
+        { title: 'Health benefits', text: 'Weight loss can lower blood sugar, blood pressure and strain on your joints. Wegovy and Zepbound also have approvals beyond weight loss.' },
+        { title: 'No surgery needed', text: 'These medicines are an option for people who are not ready for surgery or who do not qualify.' },
+        { title: 'Ongoing treatment', text: 'Weight often returns when the medicine is stopped. Many people need to stay on it long term to keep the results.' },
+      ],
+    },
+    recovery: {
+      eyebrow: 'Getting started',
+      title: 'How to get started',
+      text: 'We keep the first steps simple and unhurried.',
+      steps: [
+        { label: 'Step 1', title: 'Talk with us', text: 'Meet our team. We review your health, your history, your medicines and your goals.' },
+        { label: 'Step 2', title: 'Check the fit', text: 'Your doctor checks that a GLP-1 medicine is safe for you and picks the right one.' },
+        { label: 'Step 3', title: 'Coverage and cash pay', text: 'Coverage differs by plan. Medicare and Medi-Cal no longer cover these medicines for weight management, so many patients pay cash. Our GLP-1 Cash Pay page explains how.' },
+        { label: 'Step 4', title: 'Start low and go slow', text: 'Doses start small and rise over time. This helps your body adjust and reduces side effects.' },
+        { label: 'Step 5', title: 'Follow up', text: 'We check your progress, answer questions and talk about next steps, including surgery if it makes sense.' },
+      ],
+    },
+    safety: {
+      title: 'Safety and honest expectations',
+      text: [
+        'The most common side effects are nausea, vomiting, diarrhea, constipation and stomach pain. They are often worse when you start or raise the dose. These medicines are not safe for everyone. Tell your doctor if you or a close family member has had medullary thyroid cancer or MEN 2, or if you have had pancreatitis, gallbladder disease or kidney problems, or if you are pregnant or plan to be.',
+        'Only a doctor can prescribe these medicines. Please do not buy them from websites or sellers without a prescription. Fake and altered products are a real risk.',
+      ],
+    },
+    faqs: [
+      { q: 'What is the difference between Wegovy and Ozempic?', a: 'They contain the same medicine, semaglutide. Wegovy is approved for weight loss and comes in higher doses. Ozempic is approved for type 2 diabetes.' },
+      { q: 'What is Zepbound?', a: 'Zepbound is a weekly injection of tirzepatide. It is approved for weight loss in adults, and for moderate to severe sleep apnea in adults with obesity.' },
+      { q: 'Can I get Ozempic just for weight loss?', a: 'Ozempic is not approved for weight loss. Wegovy and Zepbound are the approved options. Your doctor will explain what fits your situation.' },
+      { q: 'Do I have to stay on it forever?', a: 'Many people regain weight after stopping. Obesity is a long-term condition, so treatment is often long term too. Talk with your doctor about your plan.' },
+      { q: 'Is medicine or surgery better?', a: 'It depends on your health and goals. Surgery often leads to larger, longer-lasting weight loss. Medicine is a good choice for some people who are not ready for surgery or do not qualify.' },
+      { q: 'Can I use a GLP-1 medicine before or after surgery?', a: 'Some patients do. Your surgeon will tell you whether it makes sense for you and when.' },
+      { q: 'Will my insurance cover it?', a: 'It depends on your plan. Since January 1, 2026, Medicare and Medi-Cal no longer cover GLP-1 medicines for weight management. Many patients pay cash and use discount pharmacy apps to lower the cost. Visit our GLP-1 Cash Pay page under Patient Info, or call us and we will explain.' },
+      startFaq,
+    ],
+  },
 };

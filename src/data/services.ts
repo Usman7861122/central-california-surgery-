@@ -27,6 +27,15 @@ export const services = [
     pos: '50% 50%',
   },
   {
+    slug: 'glp-1',
+    title: 'GLP-1 Medication',
+    kicker: 'Weight loss medication',
+    summary: 'Wegovy, Ozempic and Zepbound explained, and whether they fit your goals.',
+    body: 'Weekly medicines that reduce hunger. Learn how they differ and how they compare with weight loss surgery.',
+    image: '/images/stock/ds-consultation.jpg',
+    pos: '50% 40%',
+  },
+  {
     slug: 'hernia',
     title: 'Hernia Repair',
     kicker: 'General surgery',

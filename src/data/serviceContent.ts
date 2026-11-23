@@ -12,9 +12,10 @@ export type ServiceContent = {
   glance: { title: string; text: string }[];
   whatIs: { eyebrow?: string; title: string; text: string[] };
   candidates: { title: string; text: string; often: string[]; may: string[]; oftenLabel?: string; mayLabel?: string };
+  compare?: { eyebrow: string; title: string; text: string; note?: string; items: { name: string; ingredient: string; tag: string; weight: boolean; rows: [string, string][] }[] };
   local: { title: string; text: string[]; areas: string[] };
   benefits: { title: string; text: string; items: { title: string; text: string }[] };
-  recovery: { title: string; text: string; steps: { label: string; title: string; text: string }[] };
+  recovery: { eyebrow?: string; title: string; text: string; steps: { label: string; title: string; text: string }[] };
   safety: { title: string; text: string[] };
   faqs: { q: string; a: string }[];
 };

@@ -1,0 +1,48 @@
+---
+import SectionHead from '../ui/SectionHead.astro';
+import Button from '../ui/Button.astro';
+import Reveal from '../islands/motion/Reveal';
+
+const points = [
+  'Same patient, same goal: a healthier, more active life.',
+  'Every journey starts with a private talk with your surgeon.',
+  'Your plan is built around your health, your history and your goals.',
+];
+---
+<section id="results" class="wash-mist relative overflow-hidden py-20 md:py-28" aria-labelledby="results-title">
+  <div class="rings pointer-events-none absolute inset-0" style="--rx:100%;--ry:0%"></div>
+  <div class="relative mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-[.85fr_1.15fr] lg:gap-16">
+    <Reveal client:visible className="order-2 lg:order-1">
+      <SectionHead id="results-title" eyebrow="Real results" title="A healthier, more active life after surgery" />
+      <p class="mt-6 text-lg leading-relaxed">
+        This is one of our patients. The photo on the left shows him before treatment. The one on the right shows him today.
+      </p>
+      <ul class="mt-8 space-y-3">
+        {points.map((p) => (
+          <li class="check-item flex gap-3 text-[17px]">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 h-5 w-5 shrink-0 text-blue" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+            <span>{p}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-9 flex flex-wrap gap-4">
+        <Button href="/appointment" variant="appt" arrow>Start your journey</Button>
+        <Button href="/testimonials/video-testimonials" variant="outline">Hear patient stories</Button>
+      </div>
+    </Reveal>
+
+    <Reveal client:visible className="order-1 lg:order-2">
+      <div class="grid grid-cols-2 gap-3 sm:gap-5">
+        {[['before', 'Before', 'The patient before treatment, standing in a hotel room in flag shorts'], ['after', 'After', 'The patient today, sitting relaxed and smiling in the exam room']].map(([k, label, alt]) => (
+          <figure class="card-hover group relative overflow-hidden rounded-[14px] border border-line bg-white shadow-[0_24px_50px_-28px_rgba(8,26,53,.5)]">
+            <div class="aspect-[4/5] overflow-hidden">
+              <img src={`/images/results/${k}.jpg`} alt={alt} width="960" height="1200" loading="lazy" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" />
+            </div>
+            <figcaption class={`absolute left-3 top-3 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[.16em] text-white ${k === 'after' ? 'bg-blue' : 'bg-ink/80'}`}>{label}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </Reveal>
+  </div>
+</section>
+

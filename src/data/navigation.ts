@@ -15,6 +15,7 @@ export const mainNav: NavNode[] = [
       { label: 'Gastric Sleeve', href: '/services/gastric-sleeve', desc: 'The most common weight loss surgery.', img: '/images/stock/gastric-sleeve.jpg' },
       { label: 'Acid Reflux', href: '/services/acid-reflux', desc: 'Lasting heartburn relief.', img: '/images/stock/acid-reflux.jpg' },
       { label: 'Hernia', href: '/services/hernia', desc: 'Safe, precise hernia repair.', img: '/images/stock/hernia.jpg' },
+      { label: 'GLP-1 Medication', href: '/services/glp-1', desc: 'Wegovy, Ozempic and Zepbound.', img: '/images/stock/ds-consultation.jpg' },
       { label: 'Weight Loss', href: '/services/weight-loss', desc: 'See every weight loss option.', img: '/images/stock/wl-consult.jpg' },
     ],
   },
@@ -83,6 +84,7 @@ export const footerNav = {
     { label: 'Hernia Repair', href: '/services/hernia' },
     { label: 'Gallbladder Surgery', href: '/services/gallbladder' },
     { label: 'Acid Reflux', href: '/services/acid-reflux' },
+    { label: 'GLP-1 Medication', href: '/services/glp-1' },
   ],
   Patients: [
     { label: 'Insurance forms', href: '/insurance-forms' },

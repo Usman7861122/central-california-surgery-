@@ -104,6 +104,12 @@ export const patientPages: PatientPage[] = [
         ],
         note: 'Prices come from GoodRx and can change. Check the GoodRx app for the price today.',
       },
+      {
+        type: 'links',
+        eyebrow: 'Learn more',
+        title: 'Which GLP-1 medicine is which?',
+        groups: [{ title: 'GLP-1 medicines', items: [{ label: 'Wegovy, Ozempic and Zepbound explained', href: '/services/glp-1' }] }],
+      },
     ],
   },
   {
