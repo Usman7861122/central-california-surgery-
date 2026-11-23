@@ -34,7 +34,7 @@ const check = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
         {c.whatIs.text.map((t) => <p>{t}</p>)}
       </div>
       <div class="mt-9 flex flex-wrap gap-4">
-        <Button href="/#contact" variant="solid" arrow>Book a consultation</Button>
+        <Button href="/appointment" variant="solid" arrow>Book a consultation</Button>
         <Button href={site.phoneHref} variant="outline">Call {site.phone}</Button>
       </div>
     </Reveal>
@@ -66,11 +66,11 @@ const check = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
       <div class="mt-9 grid gap-8 sm:grid-cols-2">
         <div>
           <h3 class="font-sans text-xs font-semibold uppercase tracking-[.18em] text-blue-soft">{c.candidates.oftenLabel ?? "Often considered when there is"}</h3>
-          <ul class="mt-4 space-y-3">{c.candidates.often.map((t) => <li class="flex gap-3 text-white/90"><Fragment set:html={check} />{t}</li>)}</ul>
+          <ul class="mt-4 space-y-3">{c.candidates.often.map((t) => <li class="check-item check-item-dark flex gap-3 text-white/90"><Fragment set:html={check} />{t}</li>)}</ul>
         </div>
         <div>
           <h3 class="font-sans text-xs font-semibold uppercase tracking-[.18em] text-blue-soft">{c.candidates.mayLabel ?? "Health issues that may improve"}</h3>
-          <ul class="mt-4 space-y-3">{c.candidates.may.map((t) => <li class="flex gap-3 text-white/90"><Fragment set:html={check} />{t}</li>)}</ul>
+          <ul class="mt-4 space-y-3">{c.candidates.may.map((t) => <li class="check-item check-item-dark flex gap-3 text-white/90"><Fragment set:html={check} />{t}</li>)}</ul>
         </div>
       </div>
     </Reveal>

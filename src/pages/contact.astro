@@ -1,10 +1,47 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import Container from '../components/ui/Container.astro';
-import ContactForm from '../components/islands/ContactForm';
+import PageHero from '../components/sections/PageHero.astro';
+import HoursList from '../components/islands/HoursList';
+import { site, addressOneLine } from '../data/site';
+const base = Astro.site;
+const crumbSchema = (name: string, path: string) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', base).toString() },
+  { '@type': 'ListItem', position: 2, name, item: new URL(path, base).toString() } ] });
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(addressOneLine)}&output=embed`;
+const dirHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addressOneLine)}`;
+const schema = [
+  { '@context': 'https://schema.org', '@type': ['MedicalClinic','LocalBusiness'], name: site.name, telephone: site.phone, faxNumber: site.fax, email: site.newPatientEmail, url: site.url,
+    address: { '@type': 'PostalAddress', streetAddress: site.address.line1, addressLocality: site.address.city, addressRegion: site.address.state, postalCode: site.address.zip, addressCountry: 'US' },
+    geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng } },
+  crumbSchema('Get in touch', '/contact'),
+];
 ---
-<PageLayout title="Contact">
-  <Container>
-    <ContactForm client:idle endpoint={import.meta.env.PUBLIC_FORM_ENDPOINT ?? ''} />
-  </Container>
+<PageLayout title="Get in Touch | Central California Surgery" description="Call, email or visit Central California Surgery in Modesto, CA. Phone, address, office hours and directions." schema={schema} bare>
+  <PageHero title="Get in Touch in Modesto, CA" eyebrow="Contact" lede="Questions about surgery, insurance or your first visit? Call us, write to us, or stop by the office." image="/images/stock/by-consult.jpg" imageAlt="A friendly consultation in a bright office" position="50% 35%" crumbs={[{ label: 'Home', href: '/' }, { label: 'Get in touch' }]} />
+  <section class="wash-mist py-14 md:py-20">
+    <div class="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[1.2fr_1fr] lg:gap-14">
+      <div>
+        <p class="eyebrow">Contact details</p>
+        <h2 class="mt-4 text-3xl text-ink md:text-4xl">We are happy to help</h2>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+<div class="flex gap-4 border border-line bg-white p-6"><span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-sky text-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg></span><div><p class="text-xs font-semibold uppercase tracking-[.16em] text-slate">Phone</p><a href={site.phoneHref} class="mt-1 block text-lg font-semibold text-ink hover:text-blue">{site.phone}</a></div></div>
+<div class="flex gap-4 border border-line bg-white p-6"><span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-sky text-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-[.16em] text-slate">Email</p><a href={`mailto:${site.newPatientEmail}`} class="mt-1 block break-all text-base font-semibold text-ink hover:text-blue">{site.newPatientEmail}</a></div></div>
+<div class="flex gap-4 border border-line bg-white p-6"><span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-sky text-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><div><p class="text-xs font-semibold uppercase tracking-[.16em] text-slate">Address</p><p class="mt-1 text-lg font-semibold text-ink">{site.address.line1}, {site.address.city}, {site.address.state} {site.address.zip}</p></div></div>
+<div class="flex gap-4 border border-line bg-white p-6"><span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-sky text-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M7 14h10v7H7z"/></svg></span><div><p class="text-xs font-semibold uppercase tracking-[.16em] text-slate">Fax</p><p class="mt-1 text-lg font-semibold text-ink">{site.fax}</p></div></div>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-4">
+          <a href="/appointment" class="btn btn-solid">Book appointment</a>
+          <a href={dirHref} target="_blank" rel="noopener" class="btn btn-outline">Get directions</a>
+        </div>
+        <p class="mt-6 text-sm text-slate">Please do not send private medical details by email. In an emergency, call 911.</p>
+      </div>
+      <div class="wash-navy relative overflow-hidden p-8 text-white">
+        <p class="eyebrow eyebrow-light">Working hours</p>
+        <div class="mt-6"><HoursList client:load hours={site.hours} dark note={site.hoursNote} /></div>
+      </div>
+    </div>
+  </section>
+  <section class="bg-white">
+    <iframe title="Map to Central California Surgery" src={mapSrc} class="block h-[380px] w-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </section>
 </PageLayout>

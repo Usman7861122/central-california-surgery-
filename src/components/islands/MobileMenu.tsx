@@ -67,7 +67,7 @@ export default function MobileMenu({ items, phone, phoneHref }: { items: NavNode
               ))}
             </ul>
             <div className="mt-6 flex flex-col gap-3">
-              <a href="/#contact" onClick={() => setOpen(false)} className="btn btn-appt on-dark justify-center">Book appointment</a>
+              <a href="/appointment" onClick={() => setOpen(false)} className="btn btn-appt on-dark justify-center">Book appointment</a>
               <a href={phoneHref} className="btn btn-outline-light justify-center">Call {phone}</a>
             </div>
           </motion.nav>

@@ -1,0 +1,22 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import ServicePage from '../../components/sections/ServicePage.astro';
+import { serviceContent } from '../../data/serviceContent';
+import { site } from '../../data/site';
+
+const slug = 'weight-loss';
+const c = serviceContent[slug];
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: new URL('/services', Astro.site).toString() },
+    { '@type': 'ListItem', position: 3, name: 'Weight Loss Surgery', item: url },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'MedicalWebPage', name: c.title, url, about: { '@type': 'MedicalProcedure', name: 'Weight loss surgery', procedureType: 'https://schema.org/SurgicalProcedure' }, provider: { '@type': 'Physician', name: 'Andy Huber, MD', telephone: site.phone } },
+];
+---
+<PageLayout title={c.metaTitle} description={c.metaDescription} schema={schema} bare>
+  <ServicePage slug={slug} c={c} />
+</PageLayout>

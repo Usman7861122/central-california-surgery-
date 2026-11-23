@@ -1,0 +1,39 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PatientInfoPage from '../components/sections/PatientInfoPage.astro';
+import { mainNav } from '../data/navigation';
+import type { PatientPage } from '../data/patientInfo';
+
+const forms = mainNav.find((n) => n.label === 'Insurance Criteria Resources')?.cards ?? [];
+const page: PatientPage = {
+  slug: 'insurance-forms',
+  title: 'Insurance Forms',
+  crumb: 'Insurance Resources',
+  hideMore: true,
+  metaDescription: 'Download the insurance criteria forms for weight loss surgery at Central California Surgery in Modesto, CA: ABN forms, history and physical, clearance and more.',
+  eyebrow: 'Insurance criteria resources',
+  lede: 'Download, complete and return these forms. Some are for you, and some are for your primary doctor.',
+  image: '/images/stock/by-consult.jpg',
+  alt: 'A surgeon talking with a patient at a desk',
+  pos: '50% 40%',
+  blocks: [
+    {
+      type: 'downloads',
+      eyebrow: 'PDF forms',
+      title: 'Insurance criteria forms',
+      text: 'Each form opens as a PDF. Print it, complete it and bring it or send it to our office.',
+      items: forms.map((f) => ({ title: f.label, text: (f.desc ?? '').replace(/\.$/, ''), href: f.href })),
+    },
+  ],
+};
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Insurance Forms', item: url },
+  ] },
+];
+---
+<PageLayout title="Insurance Forms | Central California Surgery" description={page.metaDescription} schema={schema} bare>
+  <PatientInfoPage page={page} />
+</PageLayout>

@@ -183,3 +183,11 @@
 @media (min-width: 768px) {
   .hero-slide { -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 40%); mask-image: linear-gradient(to right, transparent 0%, #000 40%); }
 }
+
+/* Hover effect for every bulleted / checked list item */
+.check-item { margin-left:-.75rem; margin-right:-.75rem; padding:.5rem .75rem; border-radius:.75rem; transition:transform .25s ease, background-color .25s ease, color .25s ease, box-shadow .25s ease; cursor:default; }
+.check-item svg { flex-shrink:0; transition:transform .25s ease; }
+.check-item:hover { transform:translateX(6px); background:#eaf2ff; color:#081a35; box-shadow:0 6px 18px -10px rgba(12,42,85,.35); }
+.check-item:hover svg, .check-item:hover > span:first-child { transform:scale(1.25); }
+.check-item-dark:hover { background:rgba(255,255,255,.1); color:#fff; box-shadow:0 10px 24px -12px rgba(0,0,0,.7); }
+@media (prefers-reduced-motion:reduce){ .check-item, .check-item svg { transition:none; } .check-item:hover { transform:none; } }

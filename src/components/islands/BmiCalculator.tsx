@@ -127,7 +127,7 @@ export default function BmiCalculator() {
             </li>
           ))}
         </ul>
-        <a href="#contact" className="btn btn-white mt-7">Talk to a surgeon</a>
+        <a href="/appointment" className="btn btn-white mt-7">Talk to a surgeon</a>
       </div>
     </div>
   );

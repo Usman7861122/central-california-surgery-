@@ -26,7 +26,7 @@ const { title, eyebrow, lede, image, imageAlt, position = '50% 50%', crumbs, are
       <h1 id="page-title" class="mt-5 text-4xl leading-[1.08] !text-white sm:text-5xl md:text-6xl">{head}{city && <span class="text-blue-soft">{city}</span>}</h1>
       <p class="mt-6 text-lg leading-relaxed text-white/80">{lede}</p>
       <div class="mt-9 flex flex-wrap items-center gap-4">
-        <Button href="/#contact" variant="appt-light">Book appointment</Button>
+        <Button href="/appointment" variant="appt-light">Book appointment</Button>
         <Button href={site.phoneHref} variant="outline-light">Call {site.phone}</Button>
       </div>
     </div>

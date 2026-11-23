@@ -1,0 +1,27 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PatientInfoPage from '../../components/sections/PatientInfoPage.astro';
+import { nutritionPages } from '../../data/nutritionInfo';
+
+export function getStaticPaths() {
+  return nutritionPages.map((p) => ({ params: { slug: p.slug }, props: { page: p } }));
+}
+const { page } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+const siblings = nutritionPages.filter((p) => p.slug !== page.slug).map((p) => ({ title: p.title, href: `/nutrition/${p.slug}` }));
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+      { '@type': 'ListItem', position: 2, name: 'Nutrition', item: url },
+      { '@type': 'ListItem', position: 3, name: page.title, item: url },
+    ],
+  },
+  { '@context': 'https://schema.org', '@type': 'WebPage', name: page.title, url, description: page.metaDescription },
+];
+---
+<PageLayout title={`${page.title} | Nutrition`} description={page.metaDescription} schema={schema} bare>
+  <PatientInfoPage page={page} siblings={siblings} moreEyebrow="More nutrition" />
+</PageLayout>

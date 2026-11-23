@@ -1,5 +1,5 @@
-// Titles and excerpts from the live blog. Links point to the live site until posts are moved here.
-const base = 'https://www.centralcaliforniasurgery.com/blog/';
+// Home page picks from the blog. Full archive lives in blogAll.ts.
+const base = '/blog/';
 export const posts = [
   {
     title: 'Why Am I So Tired After Bariatric Surgery?',

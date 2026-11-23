@@ -1,0 +1,58 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import HoursList from '../components/islands/HoursList';
+import { site, addressOneLine } from '../data/site';
+const base = Astro.site;
+const crumbSchema = (name: string, path: string) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', base).toString() },
+  { '@type': 'ListItem', position: 2, name, item: new URL(path, base).toString() } ] });
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(addressOneLine)}&output=embed`;
+const dirHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addressOneLine)}`;
+const schema = [
+  { '@context': 'https://schema.org', '@type': ['MedicalClinic','LocalBusiness'], name: site.name, telephone: site.phone,
+    address: { '@type': 'PostalAddress', streetAddress: site.address.line1, addressLocality: site.address.city, addressRegion: site.address.state, postalCode: site.address.zip, addressCountry: 'US' },
+    geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng }, areaServed: site.areas },
+  crumbSchema('Location', '/location'),
+];
+const tips = [
+  ['Parking', 'Free parking is available at the office. Please allow a few extra minutes for your first visit.'],
+  ['What to bring', 'Photo ID, your insurance card, and your completed new patient packet.'],
+  ['Arrive early', 'Come 15 minutes before your time so we can check you in without rushing.'],
+];
+---
+<PageLayout title="Our Location | Central California Surgery" description="Visit Central California Surgery at 1001 Sylvan Avenue, Modesto, CA. Map, directions, office hours and the areas we serve." schema={schema} bare>
+  <PageHero title="Our Office in Modesto, CA" eyebrow="Location" lede="Find us on Sylvan Avenue. We welcome patients from Modesto, Stockton, Fresno and the Central Valley." image="/images/stock/re-doctor.jpg" imageAlt="" position="50% 30%" crumbs={[{ label: 'Home', href: '/' }, { label: 'Location' }]} />
+  <section class="wash-mist py-14 md:py-20">
+    <div class="mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-[1.4fr_1fr]">
+      <div class="overflow-hidden border border-line bg-white">
+        <iframe title="Map to Central California Surgery" src={mapSrc} class="block h-[420px] w-full border-0 lg:h-full lg:min-h-[480px]" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="space-y-6">
+        <div class="border border-line bg-white p-7">
+          <p class="eyebrow">Address</p>
+          <p class="mt-4 font-display text-2xl text-ink">{site.address.line1}<br/>{site.address.city}, {site.address.state} {site.address.zip}</p>
+          <a href={site.phoneHref} class="mt-3 block font-semibold text-blue">{site.phone}</a>
+          <a href={dirHref} target="_blank" rel="noopener" class="btn btn-solid mt-6">Get directions</a>
+        </div>
+        <div class="wash-navy relative overflow-hidden p-7 text-white">
+          <p class="eyebrow eyebrow-light">Office hours</p>
+          <div class="mt-5"><HoursList client:load hours={site.hours} dark note={site.hoursNote} /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="bg-white py-14 md:py-20">
+    <div class="mx-auto max-w-6xl px-6">
+      <p class="eyebrow">Before you visit</p>
+      <ul class="mt-8 grid gap-5 md:grid-cols-3">
+        {tips.map(([t, d]) => <li class="card-hover border border-line bg-white p-7"><p class="font-display text-xl text-ink">{t}</p><p class="mt-2 text-[15px] leading-relaxed">{d}</p></li>)}
+      </ul>
+      <div class="mt-12 border border-line bg-mist p-8">
+        <p class="eyebrow">Areas we serve</p>
+        <p class="mt-4 text-[17px] leading-relaxed">Our patients travel to Modesto from across the Central Valley. We regularly see people from {site.areas.join(', ')} and nearby towns.</p>
+        <div class="mt-5 flex flex-wrap gap-2">{site.areas.map((a) => <span class="rounded-full border border-line bg-white px-4 py-1.5 text-sm font-semibold text-ink">{a}</span>)}</div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

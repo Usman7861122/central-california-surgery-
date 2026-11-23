@@ -35,7 +35,7 @@ import Button from '../ui/Button.astro';
       <MegaNav client:load items={mainNav} />
 
       <div class="flex items-center gap-3">
-        <Button href="/#contact" variant="appt" class="hidden sm:inline-flex !px-5 !py-3">Book appointment</Button>
+        <Button href="/appointment" variant="appt" class="hidden sm:inline-flex !px-5 !py-3">Book appointment</Button>
         <MobileMenu client:load items={mainNav} phone={site.phone} phoneHref={site.phoneHref} />
       </div>
     </div>

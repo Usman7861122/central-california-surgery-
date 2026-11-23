@@ -5,6 +5,7 @@ import '@fontsource-variable/inter';
 import '../styles/global.css';
 import SEO from '../components/layout/SEO.astro';
 import Header from '../components/layout/Header.astro';
+import CookieBanner from '../components/islands/CookieBanner';
 import Footer from '../components/layout/Footer.astro';
 
 interface Props { title?: string; description?: string; schema?: object[]; noindex?: boolean; }
@@ -24,5 +25,6 @@ const { title, description, schema, noindex } = Astro.props;
     <Header />
     <main id="main"><slot /></main>
     <Footer />
+    <CookieBanner client:idle />
   </body>
 </html>

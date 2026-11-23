@@ -1,0 +1,69 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import AppointmentForm from '../components/islands/AppointmentForm';
+import HoursList from '../components/islands/HoursList';
+import { site } from '../data/site';
+
+const url = new URL('/appointment', Astro.site).toString();
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', name: 'Book an Appointment', url, description: 'Request an appointment with Central California Surgery in Modesto, CA.' },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Book an appointment', item: url },
+  ] },
+];
+const next = [
+  ['We call you', 'A member of our team calls to confirm a time that works for you.'],
+  ['You get your packet', 'New patients receive the new patient packet to fill out before the visit.'],
+  ['You meet the team', 'Bring a photo ID and your insurance card. We will answer your questions and talk about your goals.'],
+];
+---
+<PageLayout title="Book an Appointment | Central California Surgery" description="Request an appointment with Dr. Huber and the team at Central California Surgery in Modesto, CA. New and existing patients welcome." schema={schema} bare>
+  <PageHero
+    title="Book an Appointment in Modesto, CA"
+    eyebrow="Appointment"
+    lede="Tell us a little about you and when you are free. We will call to confirm your visit."
+    image="/images/stock/wl-consult.jpg"
+    imageAlt="A surgeon talking with a patient in a bright consultation room"
+    position="50% 35%"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Book an appointment' }]}
+  />
+
+  <section class="wash-mist relative py-14 md:py-20">
+    <div class="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[1.25fr_1fr] lg:gap-14">
+      <div>
+        <p class="eyebrow">Request a visit</p>
+        <h2 class="mt-4 text-3xl text-ink md:text-4xl">Your details</h2>
+        <div class="mt-8">
+          <AppointmentForm client:load endpoint={import.meta.env.PUBLIC_FORM_ENDPOINT ?? ''} email={site.newPatientEmail} phone={site.phone} phoneHref={site.phoneHref} />
+        </div>
+      </div>
+
+      <aside class="space-y-6 lg:pt-[4.2rem]">
+        <div class="border border-line bg-white p-7">
+          <p class="eyebrow">What happens next</p>
+          <ol class="mt-5 space-y-5">
+            {next.map(([t, d], i) => (
+              <li class="flex gap-4">
+                <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink text-sm font-semibold text-white">{i + 1}</span>
+                <div><p class="font-semibold text-ink">{t}</p><p class="mt-1 text-[15px] leading-relaxed">{d}</p></div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="wash-navy relative overflow-hidden p-7 text-white">
+          <p class="eyebrow eyebrow-light">Office hours</p>
+          <div class="mt-5"><HoursList client:load hours={site.hours} dark note={site.hoursNote} /></div>
+        </div>
+
+        <div class="border border-line bg-white p-7">
+          <p class="text-xs font-semibold uppercase tracking-[.18em] text-ink">Prefer to talk?</p>
+          <a href={site.phoneHref} class="mt-2 block font-display text-3xl text-ink hover:text-blue">{site.phone}</a>
+          <p class="mt-2 text-sm text-slate">Call or text during office hours. In an emergency, call 911.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</PageLayout>

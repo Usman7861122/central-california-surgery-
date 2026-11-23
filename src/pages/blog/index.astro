@@ -1,14 +1,126 @@
 ---
-import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
-import Container from '../../components/ui/Container.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import Button from '../../components/ui/Button.astro';
+import SectionHead from '../../components/ui/SectionHead.astro';
+import { site } from '../../data/site';
+import { blogPosts, blogCategories } from '../../data/blogAll';
 
-const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const featured = blogPosts[0];
+const counts = Object.fromEntries(blogCategories.map((c) => [c, blogPosts.filter((p) => p.category === c).length]));
+const url = new URL('/blog', Astro.site).toString();
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'Blog', name: 'Central California Surgery Blog', url, description: 'Bariatric nutrition, recipes, fitness and recovery advice from Central California Surgery in Modesto, CA.' },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() }, { '@type': 'ListItem', position: 2, name: 'Blog', item: url }] },
+];
 ---
-<PageLayout title="Blog">
-  <Container>
-    <ul class="space-y-4">
-      {posts.map((p) => <li><a class="underline" href={`/blog/${p.slug}`}>{p.data.title}</a></li>)}
-    </ul>
-  </Container>
+<PageLayout title="Bariatric Surgery Blog | Central California Surgery" description="Bariatric diet stages, recipes, fitness, vitamins and recovery advice from the team at Central California Surgery in Modesto, CA." schema={schema} bare>
+  <PageHero
+    title="Our Blog in Modesto, CA"
+    eyebrow="Blog"
+    lede="Honest advice for every stage of your journey: diet stages, recipes, vitamins, exercise and real patient stories."
+    image="/images/stock/blog-pureed.jpg"
+    imageAlt="A bowl of pureed food for a bariatric diet"
+    position="50% 50%"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Blog' }]}
+  />
+
+  <section class="wash-mist relative py-14 md:py-20">
+    <div class="mx-auto max-w-6xl px-6">
+      <a href={`/blog/${featured.slug}`} class="card-hover group grid overflow-hidden border border-line bg-white lg:grid-cols-[1.1fr_1fr]">
+        <div class="aspect-[16/10] overflow-hidden bg-mist lg:aspect-auto lg:min-h-[320px]">
+          {featured.img && <img src={featured.img} alt={featured.title} referrerpolicy="no-referrer" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />}
+        </div>
+        <div class="flex flex-col justify-center p-8 md:p-12">
+          <p class="eyebrow">Latest article</p>
+          <h2 class="mt-4 text-3xl text-ink md:text-4xl">{featured.title}</h2>
+          <p class="mt-4 leading-relaxed">{featured.excerpt}</p>
+          <p class="mt-5 text-sm text-slate">{featured.dateLabel} · {featured.minutes} min read</p>
+          <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[.14em] text-blue">Read article &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="bg-white py-14 md:py-20" aria-labelledby="all-posts">
+    <div class="mx-auto max-w-6xl px-6">
+      <SectionHead id="all-posts" eyebrow="All articles" title={`${blogPosts.length} posts to explore`} />
+      <div class="mt-8 flex flex-wrap gap-2" role="group" aria-label="Filter articles by topic" id="blog-filters">
+        <button type="button" data-cat="all" class="blog-chip is-active">All <span>{blogPosts.length}</span></button>
+        {blogCategories.map((c) => <button type="button" data-cat={c} class="blog-chip">{c} <span>{counts[c]}</span></button>)}
+      </div>
+
+      <ul id="blog-grid" class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {blogPosts.map((p) => (
+          <li data-cat={p.category} class="blog-item">
+            <a href={`/blog/${p.slug}`} class="card-hover group flex h-full flex-col overflow-hidden border border-line bg-white">
+              <div class="aspect-[16/10] overflow-hidden bg-mist">
+                {p.img && <img src={p.img} alt="" loading="lazy" referrerpolicy="no-referrer" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" />}
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <div class="flex items-center justify-between gap-3 text-[12px]">
+                  <span class="rounded-full bg-sky px-3 py-1 font-semibold uppercase tracking-[.1em] text-navy">{p.category}</span>
+                  <span class="text-slate">{p.dateLabel}</span>
+                </div>
+                <h3 class="mt-4 font-display text-xl leading-snug text-ink">{p.title}</h3>
+                <p class="mt-3 flex-1 text-[15px] leading-relaxed">{p.excerpt}</p>
+                <span class="mt-5 text-sm font-semibold uppercase tracking-[.14em] text-blue">Read article &rarr;</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p id="blog-empty" class="mt-10 hidden text-slate">No articles in this topic yet.</p>
+      <div class="mt-12 text-center"><button type="button" id="blog-more" class="btn btn-outline">Show more articles</button></div>
+    </div>
+  </section>
+
+  <section class="wash-navy relative overflow-hidden py-16 text-white md:py-20" aria-labelledby="blog-help">
+    <div class="mx-auto flex max-w-5xl flex-col items-start justify-between gap-8 px-6 md:flex-row md:items-center">
+      <div class="max-w-xl">
+        <p class="eyebrow eyebrow-light">We are here to help</p>
+        <h2 id="blog-help" class="mt-4 text-3xl !text-white md:text-4xl">Ready to talk about your own journey?</h2>
+        <p class="mt-3 text-white/75">Call or text {site.phone}, or book a consultation with Dr. Huber.</p>
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <Button href="/appointment" variant="appt-light">Book appointment</Button>
+        <Button href={site.phoneHref} variant="outline-light">Call {site.phone}</Button>
+      </div>
+    </div>
+  </section>
 </PageLayout>
+
+<style is:global>
+  .blog-chip { display:inline-flex; align-items:center; gap:.5rem; border:1px solid #dbe3ef; background:#fff; color:#0c2a55; padding:.5rem 1rem; border-radius:999px; font-size:14px; font-weight:600; transition:all .2s ease; cursor:pointer; }
+  .blog-chip span { font-size:12px; font-weight:500; color:#4d5d77; }
+  .blog-chip:hover { border-color:#8db8ff; background:#eaf2ff; }
+  .blog-chip.is-active { background:#081a35; border-color:#081a35; color:#fff; }
+  .blog-chip.is-active span { color:#8db8ff; }
+  .blog-item[hidden] { display:none; }
+</style>
+
+<script>
+  const PAGE = 12;
+  const items = [...document.querySelectorAll<HTMLElement>('.blog-item')];
+  const more = document.getElementById('blog-more') as HTMLButtonElement;
+  const empty = document.getElementById('blog-empty') as HTMLElement;
+  let cat = 'all';
+  let shown = PAGE;
+  const render = () => {
+    const match = items.filter((i) => cat === 'all' || i.dataset.cat === cat);
+    items.forEach((i) => (i.hidden = true));
+    match.slice(0, shown).forEach((i) => (i.hidden = false));
+    more.hidden = match.length <= shown;
+    empty.classList.toggle('hidden', match.length > 0);
+  };
+  document.getElementById('blog-filters')?.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLButtonElement>('.blog-chip');
+    if (!b) return;
+    document.querySelectorAll('.blog-chip').forEach((c) => c.classList.toggle('is-active', c === b));
+    cat = b.dataset.cat || 'all';
+    shown = PAGE;
+    render();
+  });
+  more.addEventListener('click', () => { shown += PAGE; render(); });
+  render();
+</script>

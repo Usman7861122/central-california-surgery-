@@ -1,0 +1,293 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import Button from '../../components/ui/Button.astro';
+import SectionHead from '../../components/ui/SectionHead.astro';
+import Reveal from '../../components/islands/motion/Reveal';
+import { site } from '../../data/site';
+import { services } from '../../data/services';
+import { patientPages } from '../../data/patientInfo';
+
+const title = 'Minimally Invasive Surgery in Modesto, CA';
+const description = 'Minimally invasive and robotic surgery in Modesto, CA with Dr. Andy Huber. Smaller cuts, less pain and a faster recovery. See the procedures we perform. Call (209) 248-7168.';
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+
+const check = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 h-5 w-5 shrink-0 text-blue-soft" aria-hidden="true"><path d="m5 12.500 4.500 4.500L19 7.500"/></svg>';
+const checkDark = check.replace('text-blue-soft', 'text-blue');
+const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+const stats = [
+  { big: '3 to 5', small: 'small cuts', text: 'A few tiny incisions replace one large open cut.' },
+  { big: '4 to 7', small: 'days', text: 'Typical return to work after laparoscopic gallbladder surgery.' },
+  { big: 'Same day', small: 'home', text: 'Many procedures are outpatient, so you can go home that day.' },
+];
+
+const steps = [
+  { title: 'Small cuts', text: 'The surgeon makes a few small cuts and places tube-like devices called trocars. Most procedures use 3 to 5.' },
+  { title: 'Camera and tools', text: 'A video camera and thin surgical instruments go through the trocars.' },
+  { title: 'Precise surgery', text: 'The surgeon operates while watching a magnified view of the inside of your body on a monitor.' },
+];
+
+const compare = {
+  open: { title: 'Traditional open surgery', items: ['One large incision', 'Hospital stay of four to seven days (for gallbladder surgery)', 'Often six to eight weeks before work'] },
+  mis: { title: 'Minimally invasive surgery', items: ['A few small incisions', 'Often outpatient, so you go home the same day', 'Most patients return to work in four to seven days (gallbladder)'] },
+};
+
+const benefits = [
+  { title: 'Less pain', text: 'Small cuts mean less pain after surgery.' },
+  { title: 'Less scarring', text: 'Tiny incisions leave smaller scars.' },
+  { title: 'Lower infection risk', text: 'Smaller wounds lower the chance of infection.' },
+  { title: 'Less blood loss', text: 'Surgeons lose less blood than with open surgery.' },
+  { title: 'Shorter hospital stays', text: 'Many patients spend less time in the hospital.' },
+  { title: 'Quicker return to work', text: 'Most patients get back to normal life sooner.' },
+];
+
+const history = [
+  { when: '1960s', title: 'First used to look inside', text: 'Gynecologists first used laparoscopy to find the cause of problems.' },
+  { when: 'Late 1980s', title: 'General surgeons join in', text: 'Better tools let surgeons do more complex operations.' },
+  { when: 'Early 1990s', title: 'Gallbladder surgery changes', text: 'Laparoscopic gallbladder surgery becomes common and is now usually outpatient.' },
+  { when: 'Today', title: 'Robotic and advanced care', text: 'Millions of general surgery procedures use these methods, including robotic and weight loss surgery.' },
+];
+
+const groups = [
+  { title: 'Laparoscopic', items: ['Gallbladder surgery', 'Bariatric (weight loss) surgery', 'Appendectomy', 'Inguinal hernia repair', 'Femoral hernia repair', 'Umbilical hernia repair', 'Ventral hernia repair', 'Repair of large hiatal hernia', 'Repair of paraesophageal hernia', 'Fundoplication for acid reflux (GERD)', 'Nissen fundoplication', 'Common bile duct exploration', 'Exploratory surgery', 'Gastrectomy', 'Gastrojejunostomy', 'Gastrostomy and jejunostomy tube placement', 'Liver biopsy', 'Lysis of adhesions', 'Small bowel resection', 'Treatment of small bowel obstruction', 'Colostomy', 'Splenectomy', 'Selected stomach tumors'] },
+  { title: 'Robotic', items: ['Cholecystectomy (gallbladder removal)', 'Sleeve gastrectomy', 'Gastric bypass', 'Duodenal switch', 'Ventral hernia repair', 'Hiatal hernia repair', 'Nissen fundoplication', 'Pancreatectomy', 'Splenectomy'] },
+  { title: 'Other procedures', items: ['Abdominoperineal resection', 'Low anterior rectosigmoid colon resection', 'Colectomy', 'Inguinal and ventral hernia repair', 'Hiatal hernia repair', 'Incisional hernia repair', 'Panniculectomy', 'LINX ring placement (heartburn relief)', 'Incision and drainage'] },
+];
+
+const faqs = [
+  { q: 'What is minimally invasive surgery?', a: 'It is also called laparoscopic surgery. The surgeon replaces one large open cut with a few small ones, and uses a camera and small instruments to do the operation.' },
+  { q: 'What are the benefits?', a: 'Less pain, less scarring, a lower risk of infection, less blood loss, shorter hospital stays and a quicker return to work.' },
+  { q: 'Do I stay in the hospital?', a: 'It depends on the operation and your health. Minimally invasive surgery is done both as an inpatient stay and as outpatient surgery, where you go home the same day.' },
+  { q: 'Is it right for every patient?', a: 'Not always. Your surgeon will look at your health and the operation you need, and will explain your options. Patients should always consider all options before agreeing to a plan.' },
+  { q: 'How do I get started?', a: `Book a consultation. Call ${site.phone} or use the form on our site, and our team will guide you through each step.` },
+];
+
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Patient Info', item: url },
+    { '@type': 'ListItem', position: 3, name: 'Minimally Invasive Surgery', item: url },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'MedicalWebPage', name: title, url, provider: { '@type': 'Physician', name: 'Andy Huber, MD', telephone: site.phone } },
+];
+const others = patientPages.filter((p) => p.slug !== 'minimally-invasive-surgery');
+---
+<PageLayout title="Minimally Invasive Surgery in Modesto, CA | Patient Info" description={description} schema={schema} bare>
+  <PageHero
+    title={title}
+    eyebrow="Patient info"
+    lede="Smaller cuts, less pain and a faster return to your life. Our surgeons use laparoscopic and robotic methods for many common operations."
+    image="/images/stock/mi-team.jpg"
+    imageAlt="A surgical team performing laparoscopic surgery in a bright operating room, with a monitor showing the view inside the body"
+    position="60% 35%"
+    areaNote="Patients are welcome from across Modesto, Ceres, Turlock, Manteca, Stockton, Fresno and the greater Central Valley."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Patient Info' }, { label: 'Minimally Invasive Surgery' }]}
+  />
+
+  <!-- 1. Overview -->
+  <section class="wash-mist relative overflow-hidden py-20 md:py-28" aria-labelledby="mis-what">
+    <div class="rings-light pointer-events-none absolute inset-0"></div>
+    <div class="relative mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-20">
+      <Reveal client:visible>
+        <SectionHead id="mis-what" eyebrow="What it is" title="Surgery through very small cuts" />
+        <div class="mt-6 space-y-5 text-lg leading-relaxed">
+          <p>Minimally invasive surgery, also called laparoscopic surgery, has become very popular in the U.S. and around the world over the past two decades. Millions of general surgery procedures now use these methods.</p>
+          <p>Gallbladder surgery is a good example. Laparoscopic gallbladder surgery became common in the early 1990s and is now usually outpatient.</p>
+        </div>
+        <div class="mt-9 flex flex-wrap gap-4">
+          <Button href="/appointment" variant="solid" arrow>Book a consultation</Button>
+          <Button href={site.phoneHref} variant="outline">Call {site.phone}</Button>
+        </div>
+      </Reveal>
+      <Reveal client:visible delay={0.1}>
+        <img src="/images/stock/mi-monitor.jpg" alt="A monitor showing the camera view inside the body during laparoscopic surgery" loading="lazy" class="img-round img-ring aspect-[4/3] w-full object-cover" style="object-position:30% 40%" />
+      </Reveal>
+    </div>
+    <div class="relative mx-auto mt-14 grid max-w-7xl gap-5 px-6 md:grid-cols-3">
+      {stats.map((s) => (
+        <Reveal client:visible>
+          <div class="card-hover h-full border border-line bg-white p-7">
+            <p class="font-display text-4xl text-ink">{s.big} <span class="text-xl text-blue">{s.small}</span></p>
+            <p class="mt-3 leading-relaxed">{s.text}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <!-- 2. How it works -->
+  <section class="wash-navy relative overflow-hidden py-20 text-white md:py-28" aria-labelledby="mis-how">
+    <div class="relative mx-auto max-w-7xl px-6">
+      <Reveal client:visible>
+        <SectionHead id="mis-how" eyebrow="How it works" title="Three steps, one clear view" text="Instead of one large open cut, your surgeon works through a few tiny ones." light />
+      </Reveal>
+      <ol class="mt-12 grid gap-5 md:grid-cols-3">
+        {steps.map((s, i) => (
+          <li class="border border-white/15 bg-white/5 p-7 backdrop-blur-sm">
+            <span class="grid h-11 w-11 place-items-center rounded-full bg-white font-display text-lg text-ink" aria-hidden="true">{i + 1}</span>
+            <h3 class="mt-5 font-display text-2xl !text-white">{s.title}</h3>
+            <p class="mt-2 leading-relaxed text-white/75">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="mt-14 grid gap-6 lg:grid-cols-2">
+        <div class="border border-white/15 bg-white/5 p-8">
+          <h3 class="font-sans text-xs font-semibold uppercase tracking-[.18em] text-white/60">{compare.open.title}</h3>
+          <ul class="mt-5 space-y-3">{compare.open.items.map((t) => <li class="check-item check-item-dark flex gap-3 text-white/70"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-white/40"></span>{t}</li>)}</ul>
+        </div>
+        <div class="border border-blue-soft/40 bg-white/10 p-8">
+          <h3 class="font-sans text-xs font-semibold uppercase tracking-[.18em] text-blue-soft">{compare.mis.title}</h3>
+          <ul class="mt-5 space-y-3">{compare.mis.items.map((t) => <li class="check-item check-item-dark flex gap-3 text-white"><Fragment set:html={check} />{t}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Benefits -->
+  <section class="bg-white py-20 md:py-28" aria-labelledby="mis-benefits">
+    <div class="mx-auto max-w-7xl px-6">
+      <Reveal client:visible>
+        <SectionHead id="mis-benefits" eyebrow="Why patients ask for it" title="The benefits are dramatic" text="Compared with traditional open surgery, patients often see these differences." />
+      </Reveal>
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {benefits.map((b) => (
+          <div class="card-hover border border-line bg-white p-7">
+            <span class="block h-px w-9 bg-blue"></span>
+            <h3 class="mt-4 font-display text-xl text-ink">{b.title}</h3>
+            <p class="mt-2 leading-relaxed">{b.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Recovery / going home -->
+  <section class="wash-mist relative overflow-hidden py-20 md:py-28" aria-labelledby="mis-home">
+    <div class="relative mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
+      <Reveal client:visible>
+        <img src="/images/stock/mi-recovery.jpg" alt="A nurse helping a patient walk with a walker after surgery" loading="lazy" class="img-round img-ring aspect-[4/3] w-full object-cover" style="object-position:55% 40%" />
+      </Reveal>
+      <Reveal client:visible delay={0.1}>
+        <SectionHead id="mis-home" eyebrow="After surgery" title="A shorter road back" />
+        <div class="mt-6 space-y-5 text-lg leading-relaxed">
+          <p>Minimally invasive surgery is done both as an inpatient stay and as outpatient surgery, where you go home the same day. Your surgeon will tell you what to expect for your own operation.</p>
+          <p>With open gallbladder surgery, patients once stayed in the hospital four to seven days and often could not work for six to eight weeks. Today most return to work and most activities within four to seven days.</p>
+        </div>
+        <div class="mt-9 flex flex-wrap gap-4">
+          <Button href="/patient-info/preparing-for-surgery" variant="outline" arrow>How to prepare</Button>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- 5. History -->
+  <section class="bg-white py-20 md:py-28" aria-labelledby="mis-history">
+    <div class="mx-auto max-w-7xl px-6">
+      <Reveal client:visible>
+        <SectionHead id="mis-history" eyebrow="A short history" title="How the method grew" />
+      </Reveal>
+      <ol class="mt-12 grid gap-0 border-t border-line md:grid-cols-4">
+        {history.map((h) => (
+          <li class="relative border-b border-line py-8 md:border-b-0 md:border-r md:px-7 md:first:pl-0 md:last:border-r-0">
+            <span class="absolute -top-[5px] left-0 h-2.5 w-2.5 rounded-full bg-blue md:left-auto md:first:left-0" aria-hidden="true"></span>
+            <p class="eyebrow">{h.when}</p>
+            <h3 class="mt-3 font-display text-xl text-ink">{h.title}</h3>
+            <p class="mt-2 leading-relaxed">{h.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 6. Procedures -->
+  <section class="wash-navy relative overflow-hidden py-20 text-white md:py-28" aria-labelledby="mis-procs">
+    <div class="relative mx-auto max-w-7xl px-6">
+      <Reveal client:visible>
+        <SectionHead id="mis-procs" eyebrow="What our surgeons perform" title="Minimally invasive procedures" text="These are some of the operations performed at Central California Surgery. We also perform many others." light />
+      </Reveal>
+      <div class="mt-12 grid gap-6 lg:grid-cols-3">
+        {groups.map((g) => (
+          <div class="border border-white/15 bg-white/5 p-7">
+            <h3 class="font-display text-2xl !text-white">{g.title}</h3>
+            <ul class="mt-5 space-y-1">
+              {g.items.map((t) => <li class="proc-item -mx-3 flex cursor-default gap-3 rounded-lg px-3 py-2 text-[15px] leading-snug text-white/85 transition duration-200 ease-out hover:-translate-y-1 hover:bg-white/10 hover:text-white hover:shadow-[0_10px_24px_-12px_rgba(0,0,0,.7)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"><Fragment set:html={check} />{t}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. FAQ + services -->
+  <section class="wash-mist py-20 md:py-28" aria-labelledby="mis-faq">
+    <div class="mx-auto grid max-w-7xl gap-14 px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+      <Reveal client:visible>
+        <SectionHead id="mis-faq" eyebrow="Common questions" title="Good to know" />
+        <div class="mt-8 divide-y divide-line border-y border-line">
+          {faqs.map((f) => (
+            <details class="group py-5">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 font-sans text-lg font-semibold text-ink">
+                {f.q}
+                <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line text-blue transition group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="mt-4 leading-relaxed">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </Reveal>
+      <Reveal client:visible delay={0.1}>
+        <p class="eyebrow">Surgeries we offer</p>
+        <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+          {services.map((s) => (
+            <li>
+              <a href={`/services/${s.slug}`} class="card-hover flex items-center justify-between gap-4 border border-line bg-white px-6 py-5 font-semibold text-ink">
+                {s.title}<Fragment set:html={arrow} />
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href="/services/weight-loss" class="card-hover flex items-center justify-between gap-4 border border-line bg-white px-6 py-5 font-semibold text-ink">
+              Weight Loss Surgery<Fragment set:html={arrow} />
+            </a>
+          </li>
+        </ul>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="wash-navy relative overflow-hidden py-16 text-white md:py-20" aria-labelledby="mis-help">
+    <div class="mx-auto flex max-w-5xl flex-col items-start justify-between gap-8 px-6 md:flex-row md:items-center">
+      <div class="max-w-xl">
+        <p class="eyebrow eyebrow-light">We are here to help</p>
+        <h2 id="mis-help" class="mt-4 text-3xl !text-white md:text-4xl">Ask about the least invasive option for you.</h2>
+        <p class="mt-3 text-white/75">Call or text {site.phone}, or book a consultation with Dr. Huber.</p>
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <Button href="/appointment" variant="appt-light">Book appointment</Button>
+        <Button href={site.phoneHref} variant="outline-light">Call {site.phone}</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 md:py-20" aria-labelledby="more-info">
+    <div class="mx-auto max-w-7xl px-6">
+      <SectionHead id="more-info" eyebrow="More patient info" title="Keep exploring" />
+      <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {others.map((p) => (
+          <li>
+            <a href={`/patient-info/${p.slug}`} class="card-hover flex items-center justify-between gap-4 border border-line bg-white px-6 py-5">
+              <span class="font-semibold text-ink">{p.title}</span>
+              <Fragment set:html={arrow} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</PageLayout>
+<style is:global>
+  .proc-item svg { transition: transform .2s ease; }
+  .proc-item:hover svg { transform: scale(1.2); color: #fff; }
+</style>

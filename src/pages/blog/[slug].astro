@@ -1,15 +1,110 @@
 ---
-import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
-import Container from '../../components/ui/Container.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import Button from '../../components/ui/Button.astro';
+import { site } from '../../data/site';
+import { blogPosts } from '../../data/blogAll';
 
-export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+export function getStaticPaths() {
+  return blogPosts.map((post, i) => ({
+    params: { slug: post.slug },
+    props: { post, newer: blogPosts[i - 1] ?? null, older: blogPosts[i + 1] ?? null },
+  }));
 }
-const { post } = Astro.props;
-const { Content } = await post.render();
+const { post, newer, older } = Astro.props;
+const related = blogPosts.filter((p) => p.category === post.category && p.slug !== post.slug).slice(0, 3);
+const url = new URL(`/blog/${post.slug}`, Astro.site).toString();
+const fallback = '/images/stock/blog-support.jpg';
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    datePublished: post.date,
+    url,
+    image: post.img || undefined,
+    description: post.excerpt,
+    author: { '@type': 'Organization', name: 'Central California Surgery' },
+    publisher: { '@type': 'Organization', name: 'Central California Surgery' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: new URL('/blog', Astro.site).toString() },
+      { '@type': 'ListItem', position: 3, name: post.title, item: url },
+    ],
+  },
+];
+const yt = (src: string) => src.replace('www.youtube.com/embed', 'www.youtube-nocookie.com/embed');
 ---
-<PageLayout title={post.data.title} description={post.data.description}>
-  <Container><article class="prose max-w-none"><Content /></article></Container>
+<PageLayout title={`${post.title} | Central California Surgery`} description={post.excerpt || post.title} schema={schema} bare>
+  <PageHero
+    title={post.title}
+    eyebrow={`${post.category} · ${post.dateLabel}`}
+    lede={`${post.minutes} min read`}
+    image={post.img || fallback}
+    imageAlt=""
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Blog', href: '/blog' }, { label: post.title }]}
+  />
+
+  <section class="bg-white py-14 md:py-20">
+    <article class="mx-auto max-w-3xl px-6">
+      <div class="space-y-6 text-[17px] leading-[1.8] md:text-lg">
+        {post.blocks.map((b) => {
+          if (b.t === 'p') return <p>{b.h}</p>;
+          if (b.t === 'h2') return <h2 class="!mt-12 font-display text-3xl text-ink">{b.h}</h2>;
+          if (b.t === 'h3') return <h3 class="!mt-10 font-display text-2xl text-ink">{b.h}</h3>;
+          if (b.t === 'h4') return <h4 class="!mt-8 font-display text-xl text-ink">{b.h}</h4>;
+          if (b.t === 'ul' || b.t === 'ol') return b.t === 'ul'
+            ? <ul class="space-y-2 pl-1">{b.items.map((i) => <li class="check-item flex gap-3 leading-relaxed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-1 h-5 w-5 shrink-0 text-blue" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>{i}</li>)}</ul>
+            : <ol class="list-decimal space-y-2 pl-6 marker:font-semibold marker:text-blue">{b.items.map((i) => <li class="check-item !mx-0 !pl-2">{i}</li>)}</ol>;
+          if (b.t === 'img') return <img src={b.src} alt="" loading="lazy" referrerpolicy="no-referrer" class="img-round img-ring mx-auto max-h-[560px] w-full object-cover" />;
+          if (b.t === 'video') return <div class="img-round overflow-hidden border border-line bg-ink"><iframe class="aspect-video w-full" src={yt(b.src)} title={post.title} loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>;
+          if (b.t === 'link') return <div><Button href={b.href} variant="solid" arrow>{b.h}</Button></div>;
+          return null;
+        })}
+      </div>
+
+      <div class="mt-14 grid gap-4 border-t border-line pt-8 sm:grid-cols-2">
+        {older ? <a href={`/blog/${older.slug}`} class="card-hover border border-line bg-white p-5"><span class="text-xs font-semibold uppercase tracking-[.14em] text-blue">&larr; Older</span><span class="mt-2 block font-display text-lg leading-snug text-ink">{older.title}</span></a> : <span></span>}
+        {newer ? <a href={`/blog/${newer.slug}`} class="card-hover border border-line bg-white p-5 text-right"><span class="text-xs font-semibold uppercase tracking-[.14em] text-blue">Newer &rarr;</span><span class="mt-2 block font-display text-lg leading-snug text-ink">{newer.title}</span></a> : <span></span>}
+      </div>
+    </article>
+  </section>
+
+  {related.length > 0 && (
+    <section class="wash-mist py-14 md:py-20" aria-labelledby="related">
+      <div class="mx-auto max-w-6xl px-6">
+        <p class="eyebrow">Keep reading</p>
+        <h2 id="related" class="mt-4 text-3xl text-ink md:text-4xl">More in {post.category}</h2>
+        <ul class="mt-10 grid gap-6 md:grid-cols-3">
+          {related.map((p) => (
+            <li>
+              <a href={`/blog/${p.slug}`} class="card-hover group flex h-full flex-col overflow-hidden border border-line bg-white">
+                <div class="aspect-[16/10] overflow-hidden bg-mist">{p.img && <img src={p.img} alt="" loading="lazy" referrerpolicy="no-referrer" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" />}</div>
+                <div class="p-5"><p class="text-[12px] text-slate">{p.dateLabel}</p><h3 class="mt-2 font-display text-lg leading-snug text-ink">{p.title}</h3></div>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-10"><Button href="/blog" variant="outline" arrow>All articles</Button></div>
+      </div>
+    </section>
+  )}
+
+  <section class="wash-navy relative overflow-hidden py-16 text-white md:py-20" aria-labelledby="post-help">
+    <div class="mx-auto flex max-w-5xl flex-col items-start justify-between gap-8 px-6 md:flex-row md:items-center">
+      <div class="max-w-xl">
+        <p class="eyebrow eyebrow-light">We are here to help</p>
+        <h2 id="post-help" class="mt-4 text-3xl !text-white md:text-4xl">Have a question? Talk to our team.</h2>
+        <p class="mt-3 text-white/75">Call or text {site.phone}, or book a consultation with Dr. Huber.</p>
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <Button href="/appointment" variant="appt-light">Book appointment</Button>
+        <Button href={site.phoneHref} variant="outline-light">Call {site.phone}</Button>
+      </div>
+    </div>
+  </section>
 </PageLayout>

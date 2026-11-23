@@ -1,4 +1,5 @@
 import { site } from './site';
+import { more } from './serviceContentMore';
 
 export type ServiceContent = {
   title: string;            // H1, with city for local SEO
@@ -20,7 +21,7 @@ export type ServiceContent = {
 
 /** Content for each service page. Text marked "from live site" follows centralcaliforniasurgery.com.
  *  The rest is general patient education and needs review by Dr. Huber before launch. */
-export const serviceContent: Record<string, ServiceContent> = {
+const base: Record<string, ServiceContent> = {
   'duodenal-switch': {
     title: 'Duodenal Switch in Modesto, CA',
     metaTitle: 'Duodenal Switch in Modesto, CA',
@@ -179,3 +180,5 @@ export const serviceContent: Record<string, ServiceContent> = {
     ],
   },
 };
+
+export const serviceContent: Record<string, ServiceContent> = { ...base, ...more };

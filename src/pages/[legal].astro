@@ -1,0 +1,78 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Button from '../components/ui/Button.astro';
+import { site } from '../data/site';
+import { legalPages } from '../data/legal';
+
+export function getStaticPaths() {
+  return legalPages.map((p) => ({ params: { legal: p.slug }, props: { page: p } }));
+}
+const { page } = Astro.props;
+const url = new URL(`/${page.slug}`, Astro.site).toString();
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', name: page.title, url, description: page.meta },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: page.title, item: url },
+  ] },
+];
+const id = (h: string) => h.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+const others = legalPages.filter((p) => p.slug !== page.slug);
+---
+<PageLayout title={`${page.title} | Central California Surgery`} description={page.meta} schema={schema} bare>
+  <PageHero
+    title={page.title}
+    eyebrow="Legal"
+    lede={page.lede}
+    image="/images/stock/he-exam.jpg"
+    imageAlt=""
+    position="50% 30%"
+    crumbs={[{ label: 'Home', href: '/' }, { label: page.title }]}
+  />
+
+  <section class="bg-white py-14 md:py-20">
+    <div class="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-[260px_1fr] lg:gap-16">
+      <aside class="hidden lg:block">
+        <nav aria-label="On this page" class="sticky top-28">
+          <p class="text-xs font-semibold uppercase tracking-[.18em] text-blue">On this page</p>
+          <ul class="mt-4 space-y-2 border-l border-line text-[14px]">
+            {page.sections.map((s) => <li><a href={`#${id(s.h)}`} class="-ml-px block border-l-2 border-transparent py-1 pl-4 text-slate transition hover:border-blue hover:text-ink">{s.h}</a></li>)}
+          </ul>
+        </nav>
+      </aside>
+
+      <article class="max-w-3xl">
+        <p class="text-sm text-slate">Last updated {page.updated}</p>
+        <div class="mt-8 space-y-12">
+          {page.sections.map((s) => (
+            <section id={id(s.h)} class="scroll-mt-28">
+              <h2 class="font-display text-2xl text-ink md:text-3xl">{s.h}</h2>
+              <div class="mt-4 space-y-4 text-[17px] leading-[1.8]">
+                {s.p?.map((t) => <p>{t}</p>)}
+                {s.ul && <ul class="space-y-2.5">{s.ul.map((i) => <li class="check-item flex gap-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-1.5 h-5 w-5 shrink-0 text-blue" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>{i}</span></li>)}</ul>}
+              </div>
+            </section>
+          ))}
+        </div>
+        {page.slug === 'cookie-policy' && (
+          <div class="mt-12 border border-line bg-mist p-6">
+            <p class="font-display text-xl text-ink">Change your cookie choices</p>
+            <p class="mt-2 text-[15px]">Open the settings to turn analytics or videos and maps on or off.</p>
+            <button type="button" data-cookie-settings class="btn btn-solid mt-5">Cookie settings</button>
+          </div>
+        )}
+      </article>
+    </div>
+  </section>
+
+  <section class="wash-mist py-14 md:py-16">
+    <div class="mx-auto max-w-6xl px-6">
+      <p class="eyebrow">More legal pages</p>
+      <ul class="mt-6 grid gap-4 sm:grid-cols-3">
+        {others.map((p) => <li><a href={`/${p.slug}`} class="card-hover flex items-center justify-between gap-4 border border-line bg-white px-6 py-5 font-semibold text-ink">{p.title}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>)}
+      </ul>
+      <p class="mt-8 text-sm text-slate">Questions about these pages? Call {site.phone}.</p>
+    </div>
+  </section>
+</PageLayout>
