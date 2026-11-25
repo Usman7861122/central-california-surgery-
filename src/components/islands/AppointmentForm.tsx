@@ -7,6 +7,8 @@ const times = ['Morning', 'Midday', 'Afternoon', 'Any time'];
 export default function AppointmentForm({ endpoint, email, phone, phoneHref }: { endpoint: string; email: string; phone: string; phoneHref: string }) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'mailto' | 'error'>('idle');
   const [patient, setPatient] = useState('new');
+  const q = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('pay') : null;
+  const initialPay = q === 'lantern' ? 'Lantern (SurgeryPlus)' : q === 'barinet' ? 'BARInet' : 'Not sure yet';
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -21,7 +23,7 @@ export default function AppointmentForm({ endpoint, email, phone, phoneHref }: {
         `Patient type: ${g('patient') === 'new' ? 'New patient' : 'Existing patient'}`,
         `Interested in: ${g('service') || 'Not chosen'}`,
         `Preferred date: ${g('date') || 'Not chosen'}`, `Preferred time: ${g('time') || 'Any time'}`,
-        `Best way to reach me: ${g('contact')}`, `Insurance: ${g('insurance') || 'Not shared'}`, '', g('message'),
+        `Best way to reach me: ${g('contact')}`, `How I plan to pay: ${g('pay') || 'Not sure'}`, `Insurance: ${g('insurance') || 'Not shared'}`, '', g('message'),
       ].join('\n');
       window.location.href = `mailto:${email}?subject=${encodeURIComponent('Appointment request')}&body=${encodeURIComponent(body)}`;
       setStatus('mailto');
@@ -97,6 +99,7 @@ export default function AppointmentForm({ endpoint, email, phone, phoneHref }: {
         <label className={label} htmlFor="a-contact">Best way to reach me</label>
         <select id="a-contact" name="contact" className={field} defaultValue="Phone call">{['Phone call', 'Text message', 'Email'].map((t) => <option key={t}>{t}</option>)}</select>
       </div>
+      <div><label className={label} htmlFor="a-pay">How do you plan to pay?</label><select id="a-pay" name="pay" className={field} defaultValue={initialPay}>{['Not sure yet', 'Insurance', 'Lantern (SurgeryPlus)', 'BARInet', 'Cash pay'].map((t) => <option key={t}>{t}</option>)}</select></div>
       <div><label className={label} htmlFor="a-ins">Insurance <span className="font-normal normal-case tracking-normal text-slate">(optional)</span></label><input id="a-ins" name="insurance" className={field} placeholder="Plan name" /></div>
 
       <div className="sm:col-span-2"><label className={label} htmlFor="a-msg">Anything we should know? <span className="font-normal normal-case tracking-normal text-slate">(optional)</span></label><textarea id="a-msg" name="message" rows={4} className={field} placeholder="Tell us how we can help." /></div>
